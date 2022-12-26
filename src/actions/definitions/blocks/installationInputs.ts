@@ -18,5 +18,10 @@ export const InstallationInputs: IActionInputs = {
     description: ' ',
     default:
       'https://packages.cloudfoundry.org/stable?release=macosx64-binary&version=v8&source=github'
+  },
+  plugins: {
+    required: false,
+    description: ' ',
+    default: 'multiapps, html5-plugin'
   }
 };
