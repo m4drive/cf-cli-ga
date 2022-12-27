@@ -11,8 +11,8 @@ The main idea of the project is to wrap CF CLI into nodejs github actions.
   * multiple fields
   * json config
   * prefix for values
-* Move from yauzl to @actions/tool-cache (https://www.npmjs.com/package/@actions/tool-cache)
 * Adjust linters!
+* Test install cli on all platforms / ?autodetect archive type?
 
 ### Source structure
 
