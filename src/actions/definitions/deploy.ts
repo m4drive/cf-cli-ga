@@ -29,7 +29,7 @@ export const DeployAction = new Action({
   },
   runs: {
     using: UsingEnum.node16,
-    main: 'dist/deploy2/index.js',
-    pre: 'dist/login/index.js'
+    main: '../../dist/deploy/index.js',
+    pre: '../../dist/login/index.js'
   }
 });
