@@ -110,3 +110,5 @@ dist/**/*
 __tests__
 .github
 action.yml
+cf/**/*
+cf8
