@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable filenames/match-regex */
 import * as exec from '@actions/exec';
 import * as tc from '@actions/tool-cache';
 import os from 'os';
-import fs from 'fs';
 
 export class Utils {
   private static binaryPath = '';
@@ -33,17 +33,19 @@ export class Utils {
   }
   static async getCFBinaryLocation(): Promise<string> {
     if (Utils.binaryPath.length > 0) return Utils.binaryPath;
-    const cliPath = Utils.EXECUTABLE_PATH_VARIANTS.find(async cfCliPath => {
+    for (let i = 0; i < Utils.EXECUTABLE_PATH_VARIANTS.length; i++) {
+      const cfCliPath = Utils.EXECUTABLE_PATH_VARIANTS[i];
       try {
         await exec.exec(`${cfCliPath} ${Utils.CF_INSTALLATION_CHECK_COMMAND}`);
-        return true;
+        Utils.binaryPath = cfCliPath;
+        break;
       } catch (e) {
-        return false;
+        //core.info(`Exception: ${e}`);
       }
-    });
-    if (typeof cliPath == 'undefined')
+    }
+    if (Utils.binaryPath.length === 0)
       throw new Error('CF binary path not found');
-    return cliPath;
+    return Utils.binaryPath;
   }
 
   static async downloadAndUnpack(url: string, path: string): Promise<void> {
