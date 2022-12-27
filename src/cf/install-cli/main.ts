@@ -21,7 +21,7 @@ async function run(): Promise<void> {
     const cfInstallationPathMac: string = core.getInput(
       'cfInstallationPathMac'
     );
-    const plugins: string = core.getInput('cfInstallationPathMac');
+    const plugins: string = core.getInput('plugins');
     //check if CF installed
     if (await Utils.isCFInstalled()) {
       core.info('CF CLI detected, skipping installation step!');
