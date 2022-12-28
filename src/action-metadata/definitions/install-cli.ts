@@ -1,5 +1,5 @@
-import {UsingEnum} from '../../github/ActionRuns';
-import {Action} from './../../github/Action';
+import {UsingEnum} from '../../action-metadata-schema/ActionRuns';
+import {Action} from '../../action-metadata-schema/Action';
 import {InstallationInputs} from './blocks/installationInputs';
 
 export const InstallAction = new Action({

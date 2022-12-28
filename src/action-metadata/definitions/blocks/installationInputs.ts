@@ -1,4 +1,4 @@
-import {IActionInputs} from '../../../github/ActionInputs';
+import {IActionInputs} from '../../../action-metadata-schema/ActionInputs';
 
 export const InstallationInputs: IActionInputs = {
   cfInstallationPathLinux: {

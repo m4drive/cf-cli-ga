@@ -20,7 +20,7 @@ const ncc = require('@vercel/ncc');
 const DIST_DIR = resolve(__dirname, '../dist');
 const CACHE_DIR = resolve(DIST_DIR, '.cache');
 
-const ACTION_FILE_NAME_MASK = '../lib/cf/*/main.js';
+const ACTION_FILE_NAME_MASK = '../lib/action/*/main.js';
 
 // options for ncc with mix of defaults and customization
 const options = {

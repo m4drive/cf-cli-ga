@@ -15,8 +15,9 @@
     "test": "jest",
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test",
     "build-n-package": "npm run build && npm run package",
-    "test-act": "act workflow_dispatch -j test -b -P self-hosted=catthehacker/ubuntu:act-latest -v",
-    "yaml-action-builder": "ts-node ./src/actions/builder.ts"
+    "test-trial-act": "act workflow_dispatch --secret-file ./.github/secrets/trial.secrets -j test -b -P self-hosted=catthehacker/ubuntu:act-latest -v",
+    "testenv-act": "act workflow_dispatch --secret-file ./.github/secrets/test.secrets -j testenv -b -P self-hosted=catthehacker/ubuntu:act-latest -v",
+    "yaml-action-builder": "ts-node ./src/action-metadata/builder.ts"
   },
   "keywords": [
     "actions",

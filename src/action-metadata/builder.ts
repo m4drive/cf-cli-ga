@@ -1,16 +1,12 @@
-import yaml from 'js-yaml';
-import {Base} from '../github/Base';
+import {Base} from '../action-metadata-schema/Base';
 import fs from 'fs';
 import {DeployAction} from './definitions/deploy';
 import {InstallAction} from './definitions/install-cli';
+import {LogoutAction} from './definitions/logout';
+import {LoginAction} from './definitions/login';
 
-const actionsArray = [DeployAction, InstallAction];
+const actionsArray = [DeployAction, InstallAction, LoginAction, LogoutAction];
 const BASE_LOCATION = './cf';
-/*const SEPARATOR = '\r\n---\r\n\r\n';
-const result = actionsArray
-  .map((action: Base) => yaml.dump(action.getAsJsonObject()))
-  .join(SEPARATOR);
-console.log(result);*/
 fs.rmSync(BASE_LOCATION, {recursive: true, force: true});
 fs.mkdirSync(BASE_LOCATION);
 actionsArray.map((action: Base) => {

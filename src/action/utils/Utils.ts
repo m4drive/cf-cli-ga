@@ -8,6 +8,7 @@ export class Utils {
   private static binaryPath = '';
   static CF_DEFAULT_INSTALLATION_PATH = './cf8';
   static CF_INSTALLATION_CHECK_COMMAND = '-v';
+  static CF_AUTH_ALIVE_COMMAND = 'oauth-token';
   static EXECUTABLE_PATH_VARIANTS = [
     'cf',
     'cf7',
@@ -36,7 +37,11 @@ export class Utils {
     for (let i = 0; i < Utils.EXECUTABLE_PATH_VARIANTS.length; i++) {
       const cfCliPath = Utils.EXECUTABLE_PATH_VARIANTS[i];
       try {
-        await exec.exec(`${cfCliPath} ${Utils.CF_INSTALLATION_CHECK_COMMAND}`);
+        await exec.exec(
+          `${cfCliPath} ${Utils.CF_INSTALLATION_CHECK_COMMAND}`,
+          [],
+          {silent: true}
+        );
         Utils.binaryPath = cfCliPath;
         break;
       } catch (e) {
@@ -56,6 +61,19 @@ export class Utils {
       await tc.extractXar(filePath, path);
     } else {
       await tc.extractTar(filePath, path);
+    }
+  }
+
+  static async authIsAlive(): Promise<boolean> {
+    try {
+      await exec.exec(
+        `${Utils.getCFBinaryLocation()} ${Utils.CF_AUTH_ALIVE_COMMAND}`,
+        [],
+        {silent: true}
+      );
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }
