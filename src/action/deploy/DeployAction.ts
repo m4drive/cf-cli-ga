@@ -1,7 +1,9 @@
 /* eslint-disable filenames/match-regex */
+import * as core from '@actions/core';
 import {BaseAction, InputSchema, SimpleTypes} from '../BaseAction';
 
 export class DeployAction extends BaseAction {
+  DELPOYMENT_ID_LENGTH = 36;
   getInputSchema(): InputSchema[] {
     return [
       {
@@ -187,5 +189,30 @@ export class DeployAction extends BaseAction {
   }
   getHideOutput(): boolean {
     return false;
+  }
+  async run(): Promise<void> {
+    //add deploymend id search listener
+    this.addListenerOnStdLine((data: string) =>
+      this.deploymentIdSearchListener(data)
+    );
+    await super.run();
+  }
+
+  deploymentIdSearchListener(data: string): void {
+    const deplotmentId = this.getDeploymentIdFromOutput(data);
+    if (deplotmentId.length === this.DELPOYMENT_ID_LENGTH) {
+      core.setOutput('deploymentId', deplotmentId);
+    }
+  }
+  getDeploymentIdFromOutput(str: string): string {
+    const regex =
+      /Use\s+"cf\s+dmol\s+-i\s+([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})"\s+to\s+download\s+the\s+logs\s+of\s+the\s+process\./;
+    if (str.match(regex)) {
+      const regexResults = regex.exec(str);
+      if (regexResults != null && regexResults.length > 1) {
+        return regexResults[1];
+      }
+    }
+    return '';
   }
 }
