@@ -196,13 +196,24 @@ export class DeployAction extends BaseAction {
       this.deploymentIdSearchListener(data)
     );
     await super.run();
+    //TODO: implement save dmol to artifactory
   }
 
   deploymentIdSearchListener(data: string): void {
-    const deplotmentId = this.getDeploymentIdFromOutput(data);
-    if (deplotmentId.length === this.DELPOYMENT_ID_LENGTH) {
-      core.setOutput('deploymentId', deplotmentId);
+    if (!this.getDeploymentId()) {
+      const deplotmentId = this.getDeploymentIdFromOutput(data);
+      if (deplotmentId.length === this.DELPOYMENT_ID_LENGTH) {
+        this.setDeploymentId(deplotmentId);
+        core.setOutput('deploymentId', deplotmentId);
+      }
     }
+  }
+  protected deploymentId: string | undefined;
+  getDeploymentId(): string | undefined {
+    return this.deploymentId;
+  }
+  setDeploymentId(deploymentId: string): void {
+    this.deploymentId = deploymentId;
   }
   getDeploymentIdFromOutput(str: string): string {
     const regex =
