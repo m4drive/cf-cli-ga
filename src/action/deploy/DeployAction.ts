@@ -1,11 +1,14 @@
 /* eslint-disable filenames/match-regex */
 import * as core from '@actions/core';
 import {BaseAction, InputSchema, SimpleTypes} from '../BaseAction';
+import {DMOLAction} from '../dmol/DMOLAction';
+import {loginInputs} from '../login/LoginInputs';
 
 export class DeployAction extends BaseAction {
   DELPOYMENT_ID_LENGTH = 36;
   getInputSchema(): InputSchema[] {
     return [
+      ...loginInputs,
       {
         inputFieldName: 'mtaFile',
         type: SimpleTypes.string,
@@ -99,13 +102,6 @@ export class DeployAction extends BaseAction {
         }
       },
       {
-        inputFieldName: 'namespace',
-        type: SimpleTypes.string,
-        getCommandParameter(value) {
-          return `--namespace ${value}`;
-        }
-      },
-      {
         inputFieldName: 'deleteService',
         type: SimpleTypes.boolean,
         getCommandParameter(value) {
@@ -181,6 +177,13 @@ export class DeployAction extends BaseAction {
         getCommandParameter(value) {
           return value ? `--skip-idle-start` : ``;
         }
+      },
+      {
+        inputFieldName: 'saveDMOLOn',
+        type: SimpleTypes.string,
+        getCommandParameter() {
+          return '';
+        }
       }
     ];
   }
@@ -195,10 +198,35 @@ export class DeployAction extends BaseAction {
     this.addListenerOnStdLine((data: string) =>
       this.deploymentIdSearchListener(data)
     );
-    await super.run();
+    const saveDMOLOn = core.getInput('saveDMOLOn');
+    try {
+      await super.run();
+      if (saveDMOLOn === SaveDMOLOnOptions.always) {
+        await this.saveDMOLtoArtifactory();
+      }
+    } catch (e) {
+      core.error(String(e));
+      if (
+        saveDMOLOn === SaveDMOLOnOptions.always ||
+        saveDMOLOn === SaveDMOLOnOptions.onFail
+      ) {
+        await this.saveDMOLtoArtifactory();
+      }
+      core.setFailed(String(e));
+    }
     //TODO: implement save dmol to artifactory
   }
 
+  async saveDMOLtoArtifactory(): Promise<void> {
+    const deplotmentId = this.getDeploymentId();
+    if (deplotmentId) {
+      const dmolAction = new DMOLAction();
+      dmolAction.setDeploymentId(deplotmentId);
+      await dmolAction.run();
+    } else {
+      core.error('Missing deploymentId in save dmol phase of deploy action!');
+    }
+  }
   deploymentIdSearchListener(data: string): void {
     if (!this.getDeploymentId()) {
       const deplotmentId = this.getDeploymentIdFromOutput(data);
@@ -226,4 +254,8 @@ export class DeployAction extends BaseAction {
     }
     return '';
   }
+}
+enum SaveDMOLOnOptions {
+  always = 'ALWAYS',
+  onFail = 'ON_FAIL'
 }
