@@ -1,52 +1,74 @@
 ## (cf-cli-ga) Cloud Foundry CLI Github Actions
 
+### [STATE: IN-DEVELOPMENT]
+
 The main idea of the project is to wrap CF CLI into nodejs github actions.
 
-### TODO:
+It assumes that actions is running on GitHub Action worker and CF CLI is installed directly on worker or may be installed with cf/install-cli action.
 
-* Decouple CF CLI installation
-* Decouple Login
-* Decouple Logout
-* Unify auth configs
-  * multiple fields
-  * json config
-  * prefix for values
-* Adjust linters!
-* Test install cli on all platforms / ?autodetect archive type?
+### Authorization flow
 
-### Source structure
+Exists two authorization flows:
+* Automatic
+* Manual
 
+Automatic is used by default. It performs login before action and logout right after action. To make it work - specify cf/login parameters for action you running (all of actions which requires to be logged in borrows cf/login action inputs).
+Example 
+```yaml
+name: test
+on: 
+  workflow_dispatch
+jobs:
+  test:
+    runs-on: [self-hosted]
+    steps:   
+      - name: Deploy
+        id: cf-deploy
+        uses: ./cf/deploy
+        with:
+          mtaFile: ./mta_archives/sample_1.0.0.mtar
+          credentials: ${{secrets.CFCLIGA_JSON}}
+```
 
-| folder                        | description                                                     |
-| ------------------------------- | ----------------------------------------------------------------- |
-| src                           | Source code                                                     |
-| src/actions                   | Custom Github actions                                           |
-| src/actions/definitions       | Definitions of custom github actions (for action.yml)           |
-| src/actions/definitions/block | Reusable blocks for github actions definitions (for action.yml) |
-| src/cf                        | Realization of custom github actions in TS                      |
-| src/github                    | Class structure to build custom action yaml definitions in JS   |
-| util                          | Supportive utils generaly for building/packaging                |
-| lib                           | (Generated) Folder for compiled js from ts artifacts            |
-| dist                          | (Generated) Packaged custom actions                             |
+Manual authorization flow requires manual handling log in and log out with cf/login and cf/logout actions.
+To use manual authorization flow specify "manualLogin: true" input parameter for action.
 
-### NCC BUILD
+Example 
+```yaml
+name: test
+on: 
+  workflow_dispatch
+jobs:
+  test:
+    runs-on: [self-hosted]
+    steps:   
+      - name: Install CF CLI
+        id: cf-install-cli
+        uses: ./cf/install-cli
+        with:
+          plugins: multiapps, html5-plugin
+      - name: Login
+        id: cf-login
+        uses: ./cf/login
+        with:
+          credentials: ${{secrets.CFCLIGA_JSON}}
+      - name: Deploy
+        id: cf-deploy
+        uses: ./cf/deploy
+        with:
+          mtaFile: ./mta_archives/sample_1.0.0.mtar
+          manualLogin: true
+      - name: Logout
+        id: cf-logout
+        uses: ./cf/logout
+```
 
-For packaging @vercel/ncc is used with custom builder from code: util/ncc-build.js
+### Availible actions:
 
-It search for all files with a mask '../lib/cf/*/main.js' and packages it into ../dist/{folder name that containing main.js}/. Packages with a map and sourcemap-register.
-
-### Building of actions.yml(yaml) file
-
-action.yaml file:
-
-* is build up with custom builder (src/actions/builder.ts) which translates JS objects describing action.yaml into actual yaml.
-* contains all definitions of custom actions in single file.
-
-Custom builder reasons to use:
-
-* Reuse of yaml code blocks
-* Posibility to use constants
-* Posibility to maintain actions yaml config in separate file
-* Combine all of the yaml configs into single file
-
-**src/github** folder contains classes that describes action.yaml structure and contains interfaces and validators to enable code-complete and checks on building yaml (accroding to https://json.schemastore.org/github-action.json schema).
+| Action         | Equivalent in CF CLI | Description                                                                     | Docs                               |
+| :--------------- | ---------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
+| cf/install-cli | -                    | Downloads ant installs CF CLI into worker. Supports installation of CF plugins. | [doc](docs/actions/install-cli.md) |
+| cf/login       | cf login             | Wrapper for "cf login"                                                          |                                    |
+| cf/logout      | cf logout            | Wrapper for "cf logout"                                                         |                                    |
+| cf/deploy      | cf deploy            | Wrapper for "cf deploy"                                                         |                                    |
+| cf/dmol        | cf dmol              | Wrapper for "cf dmol"                                                           |                                    |
