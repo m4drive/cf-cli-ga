@@ -1,6 +1,7 @@
 /* eslint-disable filenames/match-regex */
 
 import * as exec from '@actions/exec';
+import * as core from '@actions/core';
 import {Utils} from '../Utils';
 
 export class BasePlugin {
@@ -23,10 +24,13 @@ export class BasePlugin {
     }
   }
   async install(): Promise<void> {
-    if (!this.isInstalled()) {
+    if (!(await this.isInstalled())) {
+      core.info(`Installing CF plugin with: cf ${this.getInstallCommand()}`);
       await exec.exec(
         `${await Utils.getCFBinaryLocation()} ${this.getInstallCommand()}`
       );
+    } else {
+      core.info(`Plugin found skipping installation`);
     }
   }
 }

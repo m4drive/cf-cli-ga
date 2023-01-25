@@ -6,6 +6,6 @@ export class Html5Plugin extends BasePlugin {
     return `html5-list -h`;
   }
   getInstallCommand(): string {
-    return `install-plugin -r CF-Community "html5-plugin"`;
+    return `install-plugin -r CF-Community "html5-plugin" -f`;
   }
 }

@@ -3,7 +3,7 @@ import {BasePlugin} from './BasePlugin';
 
 export class MultiappsPlugin extends BasePlugin {
   getCheckCommand(): string {
-    return `mta -h`;
+    return `deploy -h`;
   }
   getInstallCommand(): string {
     return `install-plugin multiapps -f`;
