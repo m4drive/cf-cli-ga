@@ -1,0 +1,22 @@
+<mvc:View
+	controllerName="sample.uiapp.controller.App"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<Shell appWidthLimited="false">
+		<App id="app">
+			<VBox fitContainer="true">
+				<smartTable:SmartTable id="Test" entitySet="Test" tableType="Table" header="Test Items" showRowCount="true" enableAutoBinding="true" 
+					class="sapUiResponsiveContentPadding" editTogglable="true" app:useSmartToggle="true">
+					<smartTable:layoutData>
+						<FlexItemData growFactor="1" baseSize="0%"/>
+					</smartTable:layoutData>
+				</smartTable:SmartTable>
+			</VBox>
+		</App>
+	</Shell>
+	
+</mvc:View>

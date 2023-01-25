@@ -1,0 +1,144 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "sample.uiapp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "ach": "set-ach",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "v2/service/test/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Cnae-display": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "uiapp",
+                    "action": "display",
+                    "title": "{{appTitleFlp}}",
+                    "info": "{{appDescription}}",
+                    "icon": "sap-icon://customer",
+                    "indicatorDataSource": {
+                        "dataSource": "mainService",
+                        "path": "uiappList/$count",
+                        "refresh": 0
+                    }
+                }
+            }
+        }
+
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "sample.service"
+    },
+    "sap.cloud.portal": {
+        "uiapp-display": {
+            "vizType": "sample.customTile"
+        }
+    },
+    "sap.platform.cf": { "ui5VersionNumber": "1.105.0" },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://task",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "fullWidth": true
+    },
+    "sap.ui5": {
+        "config": {
+            "fullWidth": true 
+        },
+        "rootView": {
+            "viewName": "sample.uiapp.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "dependencies": {
+            "minUI5Version": "1.95.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sample.uiapp.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "groupId": "$direct",
+                    "synchronizationMode": "None",
+                    "autoExpandSelect": true,
+                    "defaultBindingMode": "TwoWay",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "sample.uiapp.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "async": true
+            },
+            "routes": [
+                {
+                    "name": "App",
+                    "pattern": "App",
+                    "target": [
+                        "App"
+                    ]
+                }
+            ],
+            "targets": {
+                "App": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "App",
+                    "viewName": "App"
+                }
+            }
+        }
+    }
+}
