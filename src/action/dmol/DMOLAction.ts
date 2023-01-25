@@ -8,7 +8,13 @@ import * as fs from 'fs';
 
 export class DMOLAction extends BaseAction {
   getInputSchema(): InputSchema[] {
-    return [...dmolInputs, ...loginInputs];
+    return [
+      ...dmolInputs,
+      ...loginInputs.map(input => {
+        input.mandatory = false;
+        return input;
+      })
+    ];
   }
   getBaseCommand(): string {
     return 'dmol';

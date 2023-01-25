@@ -8,7 +8,10 @@ export class DeployAction extends BaseAction {
   DELPOYMENT_ID_LENGTH = 36;
   getInputSchema(): InputSchema[] {
     return [
-      ...loginInputs,
+      ...loginInputs.map(input => {
+        input.mandatory = false;
+        return input;
+      }),
       {
         inputFieldName: 'mtaFile',
         type: SimpleTypes.string,
