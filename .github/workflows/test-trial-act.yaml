@@ -6,7 +6,7 @@ jobs:
   test-trial-act:
     runs-on: [self-hosted]
     steps:   
-      - name: Test Deployment
+      - name: Install CF CLI
         id: cf-install-cli
         uses: ./cf/install-cli
         with:
