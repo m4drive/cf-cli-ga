@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build-all": "npm run build-n-package && npm run yaml-action-builder",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
