@@ -1,0 +1,27 @@
+#Workflow to test github actions with act
+name: test-trial-act
+on: 
+  workflow_dispatch
+jobs:
+  test-trial-act:
+    runs-on: [self-hosted]
+    steps:   
+      - name: Test Deployment
+        id: cf-install-cli
+        uses: ./cf/install-cli
+        with:
+          plugins: multiapps, html5-plugin
+      - name: Login
+        id: cf-login
+        uses: ./cf/login
+        with:
+          credentials: ${{secrets.CFCLIGA_JSON}}
+      - name: Deploy
+        id: cf-deploy
+        uses: ./cf/deploy
+        with:
+          mtaFile: ./test/captest/mta_archives/sample_1.0.0.mtar
+          manualLogin: true
+      - name: Logout
+        id: cf-logout
+        uses: ./cf/logout
