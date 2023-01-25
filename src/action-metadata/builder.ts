@@ -4,8 +4,15 @@ import {DeployAction} from './definitions/deploy';
 import {InstallAction} from './definitions/install-cli';
 import {LogoutAction} from './definitions/logout';
 import {LoginAction} from './definitions/login';
+import {DMOLAction} from './definitions/dmol';
 
-const actionsArray = [DeployAction, InstallAction, LoginAction, LogoutAction];
+const actionsArray = [
+  DeployAction,
+  InstallAction,
+  LoginAction,
+  LogoutAction,
+  DMOLAction
+];
 const BASE_LOCATION = './cf';
 fs.rmSync(BASE_LOCATION, {recursive: true, force: true});
 fs.mkdirSync(BASE_LOCATION);
