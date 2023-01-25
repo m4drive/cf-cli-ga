@@ -14,14 +14,11 @@ export class LoginAction extends BaseAction {
     return false;
   }
   async run(): Promise<void> {
-    const inputs = this.getInput();
-    const manualLogin = (await inputs).find(
-      input => input.inputFieldName === 'manualLogin'
-    );
-    if (typeof manualLogin != 'undefined' && manualLogin.value === true) {
+    const manualLogin = core.getInput('manualLogin') === 'true' ? true : false;
+    if (manualLogin) {
       core.info('Detected manualLogin skipping auto-login!');
-      return;
+    } else {
+      await super.run();
     }
-    await super.run();
   }
 }
