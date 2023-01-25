@@ -104,6 +104,13 @@ lib/**/*
 # Ignore idea configs
 .idea/**/*
 
+# 
+test/**/resources
+test/**/dist
+test/**/package-lock.json
+test/**/gen
+test/**/mta_archives
+test/**/Makefile_*
 # Ignore packaged files & test & test github action
 # TODO: remove this
 dist/**/*
