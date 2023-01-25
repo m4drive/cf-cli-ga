@@ -67,7 +67,7 @@ jobs:
 
 | Action         | Equivalent in CF CLI | Description                                                                     | Docs                               |
 | :--------------- | ---------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
-| cf/install-cli | -                    | Downloads ant installs CF CLI into worker. Supports installation of CF plugins. | [doc](docs/actions/install-cli.md) |
+| cf/install-cli | -                    | Downloads and installs CF CLI into worker. Supports installation of CF plugins. | [doc](docs/actions/install-cli.md) |
 | cf/login       | cf login             | Wrapper for "cf login"                                                          |                                    |
 | cf/logout      | cf logout            | Wrapper for "cf logout"                                                         |                                    |
 | cf/deploy      | cf deploy            | Wrapper for "cf deploy"                                                         |                                    |
