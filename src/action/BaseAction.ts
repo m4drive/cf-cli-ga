@@ -20,6 +20,9 @@ export class BaseAction {
     const jsonInputs = inputs.filter(input => input.isJsonParameters);
     for (const input of jsonInputs) {
       const value = core.getInput(input.inputFieldName);
+      if (!value) {
+        continue;
+      }
       let parsedInput;
       try {
         parsedInput = JSON.parse(value);
