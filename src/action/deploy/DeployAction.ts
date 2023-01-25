@@ -248,7 +248,8 @@ export class DeployAction extends BaseAction {
   }
   getDeploymentIdFromOutput(str: string): string {
     const regex =
-      /Use\s+"cf\s+dmol\s+-i\s+([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})"\s+to\s+download\s+the\s+logs\s+of\s+the\s+process\./;
+      // /Use\s+"cf\s+dmol\s+-i\s+([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})"\s+to\s+download\s+the\s+logs\s+of\s+the\s+process\./;
+      /Operation\s+ID:\s+([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})/;
     if (str.match(regex)) {
       const regexResults = regex.exec(str);
       if (regexResults != null && regexResults.length > 1) {
