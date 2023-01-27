@@ -17,7 +17,7 @@
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test",
     "build-n-package": "npm run build && npm run package",
     "test-trial-act": "act workflow_dispatch --secret-file ./.github/secrets/trial.secrets -j test-trial-act -b -P self-hosted=catthehacker/ubuntu:act-latest -v",
-    "yaml-action-builder": "ts-node ./src/action-metadata/builder.ts"
+    "yaml-action-builder": "ts-node ./src/action/action-metadata-builder.ts"
   },
   "keywords": [
     "actions",

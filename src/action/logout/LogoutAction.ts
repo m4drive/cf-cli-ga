@@ -1,8 +1,28 @@
 /* eslint-disable filenames/match-regex */
 import * as core from '@actions/core';
+import {IActionOutputs} from '../../schema/ActionOutputs';
+import {IActionRuns, UsingEnum} from '../../schema/ActionRuns';
 import {BaseAction, InputSchema, SimpleTypes} from '../BaseAction';
 
 export class LogoutAction extends BaseAction {
+  getName(): string {
+    return 'cf-logout';
+  }
+  getDescription(): string {
+    return 'CF logout wrapper';
+  }
+  getAuthor(): string {
+    return '';
+  }
+  getRuns(): IActionRuns {
+    return {
+      using: UsingEnum.node16,
+      main: '../../dist/logout/index.js'
+    };
+  }
+  getOutputs(): IActionOutputs | undefined {
+    return undefined;
+  }
   getInputSchema(): InputSchema[] {
     return [
       {

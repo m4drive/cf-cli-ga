@@ -15,7 +15,7 @@ export const loginInputs: InputSchema[] = [
     getCommandParameter(value) {
       return `-a ${value}`;
     },
-    mandatory: true
+    required: true
   },
   {
     inputFieldName: 'organization',
@@ -23,7 +23,7 @@ export const loginInputs: InputSchema[] = [
     getCommandParameter(value) {
       return `-o ${value}`;
     },
-    mandatory: true
+    required: true
   },
   {
     inputFieldName: 'space',
@@ -31,7 +31,7 @@ export const loginInputs: InputSchema[] = [
     getCommandParameter(value) {
       return `-s ${value}`;
     },
-    mandatory: true
+    required: true
   },
   {
     inputFieldName: 'user',
@@ -39,7 +39,7 @@ export const loginInputs: InputSchema[] = [
     getCommandParameter(value) {
       return `-u ${value}`;
     },
-    mandatory: true,
+    required: true,
     isSecret: true
   },
   {
@@ -48,7 +48,7 @@ export const loginInputs: InputSchema[] = [
     getCommandParameter(value) {
       return `-p ${value}`;
     },
-    mandatory: true,
+    required: true,
     isSecret: true
   },
   {

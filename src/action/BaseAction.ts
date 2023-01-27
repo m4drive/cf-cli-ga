@@ -1,19 +1,52 @@
 /* eslint-disable filenames/match-regex */
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import {Action, IAction} from '../schema/Action';
+import {IActionInputs} from '../schema/ActionInputs';
+import {IActionOutputs} from '../schema/ActionOutputs';
+import {IActionRuns} from '../schema/ActionRuns';
 import {Utils} from './utils/Utils';
 
-export class BaseAction {
+export abstract class BaseAction {
   protected inputs: InputSchema[] = [];
-  getInputSchema(): InputSchema[] {
-    throw new Error('Not implemented!');
+
+  /* meta methods*/
+  abstract getName(): string;
+  abstract getDescription(): string | undefined;
+  abstract getAuthor(): string | undefined;
+  abstract getRuns(): IActionRuns;
+  abstract getOutputs(): IActionOutputs | undefined;
+
+  abstract getInputSchema(): InputSchema[];
+  abstract getBaseCommand(): string;
+  abstract getHideOutput(): boolean;
+
+  getActionMetadata(): Action {
+    const result: IAction = {
+      name: this.getName(),
+      description: this.getDescription() || ' ',
+      runs: this.getRuns(),
+      author: this.getAuthor() || ' ',
+      inputs: this.getInputs(),
+      outputs: this.getOutputs()
+    };
+    return new Action(result);
   }
-  getBaseCommand(): string {
-    throw new Error('Not implemented!');
+
+  getInputs(): IActionInputs {
+    const schema = this.getInputSchema();
+    const actionInputs: IActionInputs = {};
+    for (const input of schema) {
+      actionInputs[input.inputFieldName] = {
+        description: input.description || ' ',
+        deprecationMessage: input.deprecationMessage,
+        required: input.required,
+        default: input.default
+      };
+    }
+    return actionInputs;
   }
-  getHideOutput(): boolean {
-    throw new Error('Not implemented!');
-  }
+
   async getInput(): Promise<InputSchema[]> {
     const inputs = this.getInputSchema();
     const plainInputs = inputs.filter(input => !input.isJsonParameters);
@@ -55,7 +88,7 @@ export class BaseAction {
     }
     for (const input of plainInputs) {
       const value = core.getInput(input.inputFieldName);
-      if (typeof input.mandatory === 'undefined') input.mandatory = false;
+      if (typeof input.required === 'undefined') input.required = false;
       if (typeof input.isSecret === 'undefined') input.isSecret = false;
 
       if (
@@ -78,9 +111,9 @@ export class BaseAction {
     }
     let errorMessage = '';
     for (const input of plainInputs.filter(
-      inp => inp.mandatory && inp.isEmpty
+      inp => inp.required && inp.isEmpty
     )) {
-      errorMessage += `Missing value for mandatory input parameter: ${input.inputFieldName}\r\n`;
+      errorMessage += `Missing value for required input parameter: ${input.inputFieldName}\r\n`;
     }
     if (errorMessage.length > 0) {
       throw new Error(errorMessage);
@@ -221,13 +254,16 @@ export class BaseAction {
 }
 export interface InputSchema {
   inputFieldName: string;
-  mandatory?: boolean;
+  required?: boolean;
   getCommandParameter(value: string | number | boolean): string;
   value?: string | number | boolean;
   isEmpty?: boolean;
   type: SimpleTypes;
   isSecret?: boolean;
   isJsonParameters?: boolean;
+  description?: string;
+  deprecationMessage?: string;
+  default?: string;
 }
 
 export enum SimpleTypes {

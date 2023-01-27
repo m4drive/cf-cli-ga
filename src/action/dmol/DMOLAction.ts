@@ -5,13 +5,33 @@ import {BaseAction, InputSchema} from '../BaseAction';
 import {dmolInputs} from './DMOLInputs';
 import {loginInputs} from '../login/LoginInputs';
 import * as fs from 'fs';
+import {IActionRuns, UsingEnum} from '../../schema/ActionRuns';
+import {IActionOutputs} from '../../schema/ActionOutputs';
 
 export class DMOLAction extends BaseAction {
+  getName(): string {
+    return 'cf-dmol';
+  }
+  getDescription(): string {
+    return 'CF dmol wrapper';
+  }
+  getAuthor(): string {
+    return '';
+  }
+  getRuns(): IActionRuns {
+    return {
+      using: UsingEnum.node16,
+      main: '../../dist/dmol/index.js'
+    };
+  }
+  getOutputs(): IActionOutputs | undefined {
+    return undefined;
+  }
   getInputSchema(): InputSchema[] {
     return [
       ...dmolInputs,
       ...loginInputs.map(input => {
-        input.mandatory = false;
+        input.required = false;
         return input;
       })
     ];

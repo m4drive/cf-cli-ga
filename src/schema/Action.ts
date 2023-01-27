@@ -24,7 +24,7 @@ export class Action extends Base {
     return Action.getClassSchema();
   }
 }
-interface IAction {
+export interface IAction {
   name: string;
   description: string;
   runs: IActionRuns;
