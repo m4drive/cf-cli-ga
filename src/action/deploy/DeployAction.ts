@@ -3,6 +3,7 @@ import * as core from '@actions/core';
 import {IActionOutputs} from '../../schema/ActionOutputs';
 import {IActionRuns, UsingEnum} from '../../schema/ActionRuns';
 import {BaseAction, InputSchema} from '../BaseAction';
+import {baseInputs} from '../BaseInputs';
 import {DMOLAction} from '../dmol/DMOLAction';
 import {loginInputs} from '../login/LoginInputs';
 import {deployInputs} from './DeployInputs';
@@ -39,7 +40,8 @@ export class DeployAction extends BaseAction {
         input.required = false;
         return input;
       }),
-      ...deployInputs
+      ...deployInputs,
+      ...baseInputs
     ];
   }
   getBaseCommand(): string {

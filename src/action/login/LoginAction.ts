@@ -3,6 +3,7 @@ import * as core from '@actions/core';
 import {IActionOutputs} from '../../schema/ActionOutputs';
 import {IActionRuns, UsingEnum} from '../../schema/ActionRuns';
 import {BaseAction, InputSchema} from '../BaseAction';
+import {baseInputs} from '../BaseInputs';
 import {loginInputs} from './LoginInputs';
 
 export class LoginAction extends BaseAction {
@@ -25,7 +26,7 @@ export class LoginAction extends BaseAction {
     return undefined;
   }
   getInputSchema(): InputSchema[] {
-    return [...loginInputs];
+    return [...loginInputs, ...baseInputs];
   }
   getBaseCommand(): string {
     return 'login';

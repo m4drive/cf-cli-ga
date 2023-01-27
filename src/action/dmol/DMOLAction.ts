@@ -7,6 +7,7 @@ import {loginInputs} from '../login/LoginInputs';
 import * as fs from 'fs';
 import {IActionRuns, UsingEnum} from '../../schema/ActionRuns';
 import {IActionOutputs} from '../../schema/ActionOutputs';
+import {baseInputs} from '../BaseInputs';
 
 export class DMOLAction extends BaseAction {
   getName(): string {
@@ -32,6 +33,7 @@ export class DMOLAction extends BaseAction {
   getInputSchema(): InputSchema[] {
     return [
       ...dmolInputs,
+      ...baseInputs,
       ...loginInputs.map(input => {
         input.required = false;
         return input;
