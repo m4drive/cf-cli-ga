@@ -39,7 +39,7 @@ export const installCLIInputs: InputSchema[] = [
     inputFieldName: 'plugins',
     required: false,
     description: ' ',
-    default: 'multiapps, html5-plugin',
+    default: 'multiapps, html5-plugin, blue-green-deploy',
     type: SimpleTypes.string,
     getCommandParameter() {
       return '';
