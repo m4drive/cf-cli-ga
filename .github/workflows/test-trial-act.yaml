@@ -22,6 +22,14 @@ jobs:
         with:
           mtaFile: ./test/captest/mta_archives/sample_1.0.0.mtar
           manualLogin: true
+      - name: Check Command
+        id: cf-command
+        uses: ./cf/command
+        with:
+          command: html5-list
+          flags: "-d"
+          hideOutput: false
+          manualLogin: true
       - name: Logout
         id: cf-logout
         uses: ./cf/logout
