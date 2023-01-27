@@ -21,7 +21,9 @@ export class DMOLAction extends BaseAction {
   getRuns(): IActionRuns {
     return {
       using: UsingEnum.node16,
-      main: '../../dist/dmol/index.js'
+      main: '../../dist/dmol/index.js',
+      pre: '../../dist/login/index.js',
+      post: '../../dist/logout/index.js'
     };
   }
   getOutputs(): IActionOutputs | undefined {
