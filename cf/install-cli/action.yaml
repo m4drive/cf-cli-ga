@@ -1,0 +1,26 @@
+name: cf-install-cli
+description: Install CF CLI
+author: ' '
+inputs:
+  cfInstallationPathLinux:
+    description: ' '
+    required: false
+    default: >-
+      https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8&source=github
+  cfInstallationPathWindows:
+    description: ' '
+    required: false
+    default: >-
+      https://packages.cloudfoundry.org/stable?release=windows64-exe&version=v8&source=github
+  cfInstallationPathMac:
+    description: ' '
+    required: false
+    default: >-
+      https://packages.cloudfoundry.org/stable?release=macosx64-binary&version=v8&source=github
+  plugins:
+    description: ' '
+    required: false
+    default: multiapps, html5-plugin, blue-green-deploy
+runs:
+  using: node16
+  main: index.js

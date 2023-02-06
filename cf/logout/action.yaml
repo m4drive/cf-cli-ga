@@ -1,0 +1,9 @@
+name: cf-logout
+description: CF logout wrapper
+author: ' '
+inputs:
+  manualLogin:
+    description: ' '
+runs:
+  using: node16
+  main: index.js

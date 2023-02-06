@@ -1,0 +1,93 @@
+name: cf-deploy
+description: CF deploy wrapper
+author: ' '
+inputs:
+  manualLogin:
+    description: ' '
+    required: false
+  apiUrl:
+    description: ' '
+    required: false
+  organization:
+    description: ' '
+    required: false
+  space:
+    description: ' '
+    required: false
+  user:
+    description: ' '
+    required: false
+  password:
+    description: ' '
+    required: false
+  skipSSLValidation:
+    description: ' '
+    required: false
+  origin:
+    description: ' '
+    required: false
+  credentials:
+    description: ' '
+    required: false
+  mtaFile:
+    description: ' '
+    required: true
+  modules:
+    description: ' '
+  resources:
+    description: ' '
+  operationId:
+    description: ' '
+  action:
+    description: ' '
+  extDescriptor:
+    description: ' '
+  timeout:
+    description: ' '
+  versionRule:
+    description: ' '
+  deployServiceUrl:
+    description: ' '
+  force:
+    description: ' '
+  retries:
+    description: ' '
+  noStart:
+    description: ' '
+  namespace:
+    description: ' '
+  deleteService:
+    description: ' '
+  deleteServiceKeys:
+    description: ' '
+  deleteServiceBrokers:
+    description: ' '
+  keepFiles:
+    description: ' '
+  noRestartSubscribedApps:
+    description: ' '
+  doNotFailOnMissingPermissions:
+    description: ' '
+  abortOnError:
+    description: ' '
+  verifyArchiveSignature:
+    description: ' '
+  strategy:
+    description: ' '
+  skipTestingPhase:
+    description: ' '
+  skipIdleStart:
+    description: ' '
+  saveDMOLOn:
+    description: ' '
+  flags:
+    description: CF command flags text
+    required: false
+outputs:
+  deploymentId:
+    description: Id of CF mtar deployment.
+runs:
+  using: node16
+  main: index.js
+  pre: ../login/index.js
+  post: ../logout/index.js

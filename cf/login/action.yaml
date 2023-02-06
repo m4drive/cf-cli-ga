@@ -1,0 +1,37 @@
+name: cf-login
+description: CF login wrapper
+author: ' '
+inputs:
+  manualLogin:
+    description: ' '
+    required: false
+  apiUrl:
+    description: ' '
+    required: false
+  organization:
+    description: ' '
+    required: false
+  space:
+    description: ' '
+    required: false
+  user:
+    description: ' '
+    required: false
+  password:
+    description: ' '
+    required: false
+  skipSSLValidation:
+    description: ' '
+    required: false
+  origin:
+    description: ' '
+    required: false
+  credentials:
+    description: ' '
+    required: false
+  flags:
+    description: CF command flags text
+    required: false
+runs:
+  using: node16
+  main: index.js
