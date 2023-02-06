@@ -84,7 +84,7 @@ export class InstallCLIAction extends BaseAction {
           variant => `${defaultInstallationPath}/${variant}`
         )
           .filter(executablePath => fs.existsSync(executablePath))
-          .forEach(executablePath => fs.chmodSync(executablePath, 777));
+          .forEach(executablePath => fs.chmodSync(executablePath, 0o777));
       }
       // validate installation
       if (!(await Utils.isCFInstalled())) {
