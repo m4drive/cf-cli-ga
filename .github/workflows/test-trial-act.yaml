@@ -5,12 +5,14 @@ on:
 jobs:
   test-trial-act:
     runs-on: [self-hosted]
+#    container:
+#      image: ppiper/cf-cli
     steps:   
       - name: Install CF CLI
         id: cf-install-cli
         uses: ./cf/install-cli
         with:
-          plugins: multiapps, html5-plugin
+          plugins: multiapps, html5-plugin, blue-green-deploy
       - name: Login
         id: cf-login
         uses: ./cf/login
