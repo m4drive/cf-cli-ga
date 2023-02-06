@@ -19,7 +19,7 @@ export class LoginAction extends BaseAction {
   getRuns(): IActionRuns {
     return {
       using: UsingEnum.node16,
-      main: '../../dist/login/index.js'
+      main: 'index.js'
     };
   }
   getOutputs(): IActionOutputs | undefined {

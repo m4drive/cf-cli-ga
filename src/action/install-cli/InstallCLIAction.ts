@@ -26,7 +26,7 @@ export class InstallCLIAction extends BaseAction {
   getRuns(): IActionRuns {
     return {
       using: UsingEnum.node16,
-      main: '../../dist/install-cli/index.js'
+      main: 'index.js'
     };
   }
   getOutputs(): IActionOutputs | undefined {

@@ -17,7 +17,7 @@ export class LogoutAction extends BaseAction {
   getRuns(): IActionRuns {
     return {
       using: UsingEnum.node16,
-      main: '../../dist/logout/index.js'
+      main: 'index.js'
     };
   }
   getOutputs(): IActionOutputs | undefined {

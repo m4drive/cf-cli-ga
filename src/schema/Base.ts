@@ -53,7 +53,7 @@ export class Base {
     return yaml.dump(this.getAsJsonObject());
   }
   getFolderName(): string {
-    if (this.data && this.data.runs && this.data.runs.main) {
+    /*if (this.data && this.data.runs && this.data.runs.main) {
       const regex = /\/([a-z\-\d]+)\/index\.js/;
       if (regex.test(this.data.runs.main)) {
         return this.data.runs.main.match(regex)[1];
@@ -61,7 +61,8 @@ export class Base {
         throw new Error('Unsupported runs.main location!');
       }
     }
-    throw new Error('Missing runs.main parameter!');
+    throw new Error('Missing runs.main parameter!');*/
+    return String(this.getAsJsonObject()['name']).replace('cf-', '');
   }
 }
 

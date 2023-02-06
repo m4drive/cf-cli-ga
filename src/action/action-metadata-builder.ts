@@ -16,12 +16,21 @@ const actionsArray = [
   new CommandAction().getActionMetadata()
 ];
 const BASE_LOCATION = './cf';
+const DIST_LOCATION = './dist';
+const JS_FILE_NAMES = ['index.js', 'index.map.js', 'sourcemap-register.js'];
 fs.rmSync(BASE_LOCATION, {recursive: true, force: true});
 fs.mkdirSync(BASE_LOCATION);
 actionsArray.map((action: Base) => {
-  fs.mkdirSync(`${BASE_LOCATION}/${action.getFolderName()}`);
+  const folderName = action.getFolderName();
+  fs.mkdirSync(`${BASE_LOCATION}/${folderName}`);
   fs.writeFileSync(
-    `${BASE_LOCATION}/${action.getFolderName()}/action.yaml`,
+    `${BASE_LOCATION}/${folderName}/action.yaml`,
     action.getAsYaml()
   );
+  for (const fileName of JS_FILE_NAMES) {
+    fs.copyFileSync(
+      `${DIST_LOCATION}/${folderName}/${fileName}`,
+      `${BASE_LOCATION}/${folderName}/${fileName}`
+    );
+  }
 });
