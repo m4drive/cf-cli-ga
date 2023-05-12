@@ -4,8 +4,6 @@
 
 The main idea of the project is to wrap CF CLI into nodejs github actions.
 
-It assumes that actions is running on GitHub Action worker and CF CLI is installed directly on worker or may be installed with cf/install-cli action.
-
 ### Authorization flow
 
 Exists two authorization flows:
@@ -72,3 +70,50 @@ jobs:
 | cf/logout      | cf logout            | Wrapper for "cf logout"                                                         |                                    |
 | cf/deploy      | cf deploy            | Wrapper for "cf deploy"                                                         |                                    |
 | cf/dmol        | cf dmol              | Wrapper for "cf dmol"                                                           |                                    |
+
+
+### Deployment sample with PPiper
+
+```yaml
+#Workflow to test github actions with act
+name: test-trial-act-ppiper
+on: 
+  workflow_dispatch
+jobs:
+  test-trial-act-ppiper:
+    runs-on: "ubuntu-latest"
+    container:
+      image: ppiper/cf-cli:latest
+      options: --user piper
+      env:
+        CF_PLUGIN_HOME: /home/piper
+    steps:   
+      - uses: actions/checkout@v2
+      - name: Install CF CLI
+        id: cf-install-cli
+        uses: m4drive/cf-cli-ga/cf/install-cli@master
+        with:
+          plugins: multiapps, html5-plugin, blue-green-deploy
+      - name: Login
+        id: cf-login
+        uses: m4drive/cf-cli-ga/cf/login@master
+        with:
+          credentials: ${{secrets.CFCLIGA_JSON}}
+      - name: Deploy
+        id: cf-deploy
+        uses: m4drive/cf-cli-ga/cf/deploy@master
+        with:
+          mtaFile: ./mta_archives/sample_1.0.0.mtar
+          manualLogin: true
+      - name: Check Command
+        id: cf-command
+        uses: m4drive/cf-cli-ga/cf/command@master
+        with:
+          command: html5-list
+          flags: "-d"
+          hideOutput: false
+          manualLogin: true
+      - name: Logout
+        id: cf-logout
+        uses: m4drive/cf-cli-ga/cf/logout@master
+```
